@@ -5,6 +5,11 @@
 	"require": {
 		"flarum/core": "^0.1.0-beta.7.1"
 	},
+	"autoload": {
+		"psr-4": {
+			"Flarumx\\UserExtraInfo\\": "src/"
+		}
+	},
 	"extra": {
 		"flarum-extension": {
 			"title": "User Extra Info"
