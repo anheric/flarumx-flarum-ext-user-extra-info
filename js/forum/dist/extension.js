@@ -1,9 +1,9 @@
 'use strict';
 
-System.register('flarumx/ext-user-extra-info/main', ['flarum/app', 'flarum/models/User', 'flarum/components/UserCard', 'flarum/helpers/icon', 'flarum/Model', 'flarum/extend', 'flarum/components/Post', 'flarum/components/PostUser', 'flarum/helpers/avatar', 'flarum/helpers/username', 'flarum/helpers/userOnline', 'flarum/helpers/listItems', 'flarum/components/SettingsPage'], function (_export, _context) {
+System.register('flarumx/ext-user-extra-info/main', ['flarum/app', 'flarum/models/User', 'flarum/components/UserCard', 'flarum/helpers/icon', 'flarum/Model', 'flarum/extend', 'flarum/components/Post', 'flarum/components/PostUser', 'flarum/helpers/avatar', 'flarum/helpers/username', 'flarum/helpers/userOnline', 'flarum/helpers/listItems', 'flarum/components/SettingsPage', 'flarum/components/LogInModal', 'flarum/components/Modal', 'flarum/components/SignUpModal', 'flarum/components/Alert', 'flarum/components/Button', 'flarum/components/LogInButtons', 'flarum/utils/extractText'], function (_export, _context) {
 	"use strict";
 
-	var app, User, UserCard, icon, Model, extend, Post, PostUser, avatar, username, userOnline, listItems, SettingsPage;
+	var app, User, UserCard, icon, Model, extend, Post, PostUser, avatar, username, userOnline, listItems, SettingsPage, LogInModal, Modal, SignUpModal, Alert, Button, LogInButtons, extractText;
 	return {
 		setters: [function (_flarumApp) {
 			app = _flarumApp.default;
@@ -31,6 +31,20 @@ System.register('flarumx/ext-user-extra-info/main', ['flarum/app', 'flarum/model
 			listItems = _flarumHelpersListItems.default;
 		}, function (_flarumComponentsSettingsPage) {
 			SettingsPage = _flarumComponentsSettingsPage.default;
+		}, function (_flarumComponentsLogInModal) {
+			LogInModal = _flarumComponentsLogInModal.default;
+		}, function (_flarumComponentsModal) {
+			Modal = _flarumComponentsModal.default;
+		}, function (_flarumComponentsSignUpModal) {
+			SignUpModal = _flarumComponentsSignUpModal.default;
+		}, function (_flarumComponentsAlert) {
+			Alert = _flarumComponentsAlert.default;
+		}, function (_flarumComponentsButton) {
+			Button = _flarumComponentsButton.default;
+		}, function (_flarumComponentsLogInButtons) {
+			LogInButtons = _flarumComponentsLogInButtons.default;
+		}, function (_flarumUtilsExtractText) {
+			extractText = _flarumUtilsExtractText.default;
 		}],
 		execute: function () {
 
@@ -39,6 +53,68 @@ System.register('flarumx/ext-user-extra-info/main', ['flarum/app', 'flarum/model
 				extend(SettingsPage.prototype, 'settingsItems', function (items) {
 					items.remove('account');
 				});
+
+				LogInModal.prototype.content = function () {
+					return [m(
+						'div',
+						{ className: 'Modal-body' },
+						m(LogInButtons, null),
+						m(
+							'div',
+							{ className: 'Form Form--centered' },
+							m(
+								'div',
+								{ className: 'Form-group' },
+								m('input', { className: 'FormControl', name: 'identification', type: 'text', placeholder: extractText(app.translator.trans('core.forum.log_in.username_or_email_placeholder')),
+									bidi: this.identification,
+									disabled: this.loading })
+							),
+							m(
+								'div',
+								{ className: 'Form-group' },
+								m('input', { className: 'FormControl', name: 'password', type: 'password', placeholder: extractText(app.translator.trans('core.forum.log_in.password_placeholder')),
+									bidi: this.password,
+									disabled: this.loading })
+							),
+							m(
+								'div',
+								{ className: 'Form-group' },
+								m(
+									'div',
+									null,
+									m(
+										'label',
+										{ className: 'checkbox' },
+										m('input', { type: 'checkbox', bidi: this.remember, disabled: this.loading }),
+										app.translator.trans('core.forum.log_in.remember_me_label')
+									)
+								)
+							),
+							m(
+								'div',
+								{ className: 'Form-group' },
+								Button.component({
+									className: 'Button Button--primary Button--block',
+									type: 'submit',
+									loading: this.loading,
+									children: app.translator.trans('core.forum.log_in.submit_button')
+								})
+							)
+						)
+					), m(
+						'div',
+						{ className: 'Modal-footer' },
+						m(
+							'p',
+							null,
+							m(
+								'a',
+								{ href: '#' },
+								'Register'
+							)
+						)
+					)];
+				};
 
 				PostUser.prototype.view = function () {
 					var post = this.props.post;
@@ -109,6 +185,7 @@ System.register('flarumx/ext-user-extra-info/main', ['flarum/app', 'flarum/model
 					));
 				});
 			});
+			// import ForgotPasswordModal from 'flarum/components/ForgotPasswordModal';
 		}
 	};
 });

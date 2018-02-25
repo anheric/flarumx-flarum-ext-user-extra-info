@@ -12,12 +12,69 @@ import username from 'flarum/helpers/username';
 import userOnline from 'flarum/helpers/userOnline';
 import listItems from 'flarum/helpers/listItems';
 import SettingsPage from 'flarum/components/SettingsPage';
+import LogInModal from 'flarum/components/LogInModal';
+
+
+import Modal from 'flarum/components/Modal';
+// import ForgotPasswordModal from 'flarum/components/ForgotPasswordModal';
+import SignUpModal from 'flarum/components/SignUpModal';
+import Alert from 'flarum/components/Alert';
+import Button from 'flarum/components/Button';
+import LogInButtons from 'flarum/components/LogInButtons';
+import extractText from 'flarum/utils/extractText';
+
+
 
 app.initializers.add('flarumx-flarum-ext-user-extra-info', function () {
 	// remove change password and change email buttons from profile settings
 	extend(SettingsPage.prototype, 'settingsItems', function(items) {
 		items.remove('account')
 	})
+
+	LogInModal.prototype.content = function() {
+		return [
+			<div className="Modal-body">
+				<LogInButtons />
+
+				<div className="Form Form--centered">
+					<div className="Form-group">
+						<input className="FormControl" name="identification" type="text" placeholder={extractText(app.translator.trans('core.forum.log_in.username_or_email_placeholder'))}
+							bidi={this.identification}
+							disabled={this.loading} />
+					</div>
+
+					<div className="Form-group">
+						<input className="FormControl" name="password" type="password" placeholder={extractText(app.translator.trans('core.forum.log_in.password_placeholder'))}
+							bidi={this.password}
+							disabled={this.loading} />
+					</div>
+
+					<div className="Form-group">
+						<div>
+							<label className="checkbox">
+								<input type="checkbox" bidi={this.remember} disabled={this.loading} />
+								{app.translator.trans('core.forum.log_in.remember_me_label')}
+							</label>
+						</div>
+					</div>
+
+					<div className="Form-group">
+						{Button.component({
+							className: 'Button Button--primary Button--block',
+							type: 'submit',
+							loading: this.loading,
+							children: app.translator.trans('core.forum.log_in.submit_button')
+						})}
+					</div>
+				</div>
+			</div>,
+			<div className="Modal-footer">
+				<p>
+					<a href="#">Register</a>
+				</p>
+			</div>
+		];
+	}
 
 	PostUser.prototype.view = function() {
 		const post = this.props.post;
