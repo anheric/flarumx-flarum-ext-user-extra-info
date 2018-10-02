@@ -70,7 +70,7 @@ app.initializers.add('flarumx-flarum-ext-user-extra-info', function () {
 			</div>,
 			<div className="Modal-footer">
 				<p>
-					<a href="#">Register</a>
+					<a href="https://www.aviationsafetyplatform.com/register#individual">Register</a>
 				</p>
 			</div>
 		];
