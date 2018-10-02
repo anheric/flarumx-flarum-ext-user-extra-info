@@ -109,7 +109,7 @@ System.register('flarumx/ext-user-extra-info/main', ['flarum/app', 'flarum/model
 							null,
 							m(
 								'a',
-								{ href: '#' },
+								{ href: 'https://www.aviationsafetyplatform.com/register#individual' },
 								'Register'
 							)
 						)
